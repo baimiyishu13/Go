@@ -13,4 +13,5 @@ func main() {
 	// += 加等 b = b + a; 简化代码
 	b += a
 	fmt.Println(b) //42
+
 }
