@@ -6,7 +6,18 @@ import (
 	"os"
 )
 
+// 多行声明
+type User struct {
+	Username string
+	Email    string
+}
+
 func main() {
+	u := User{
+		Username: "baby",
+		Email:    "baby@123.com",
+	}
+	fmt.Println(u)
 	/*
 		输入和输出：fmt包
 
@@ -35,4 +46,5 @@ func main() {
 	reader := bufio.NewReader(os.Stdin)
 	s1, _ := reader.ReadString('\n')
 	fmt.Println("读出的内容为:", s1)
+
 }
