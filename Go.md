@@ -1,20 +1,9 @@
+## :bell:学前准备工作
 
-
----
-
-## 1：聊聊
-
-
-
-## 2：聊聊
-
-
-
-## 3：学前准备工作
-
-#### 3.3 Hello，World
+#### :trophy: Hello，World
 
 记事本编写 hello.go
+
 
 ```go
 package main
