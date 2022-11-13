@@ -1200,7 +1200,7 @@ if err != nil {
 
 下图展示了程序语言中条件语句的结构：
 
-  ![image-20221108221307856](C:\Users\admin\Desktop\work\Go.assets\image-20221108221307856.png)
+  ![image-20221108221307856](/images/if.png)
 
 ```go
 func main() {
@@ -1248,6 +1248,825 @@ if 布尔表达式 1 {
 }
 ```
 
+
+示例：
+
+```go
+// if 语句嵌套
+func main() {
+
+   var a int = 100
+   var b int = 200
+
+   if a == 100 {
+      fmt.Println("a 满足条件")
+      if b == 200 {
+         fmt.Println("b 满足条件")
+      }
+   }
+}
+```
+
+验证密码案例：（再次输入密码）
+
+```GO
+// if 嵌套语句验证密码
+func main() {
+
+   // 验证密码，再次输入密码
+   var a, b string
+   var pwd string = "go@123"
+   // 用户输入
+   fmt.Print("请输入密码:")
+   fmt.Scanln(&a)
+    // 业务：验证密码是否正确
+   if a == pwd {
+      fmt.Print("再次输入密码:")
+      fmt.Scanln(&b)
+      if b == pwd {
+         fmt.Println("登录成功")
+      }
+   } else {
+      fmt.Println("密码错误，请重新登录")
+   }
+}
+```
+
+
+
+
+
+#### :four_leaf_clover: switch
+
+对于if {} else if {} 写的多了会让代码很多
+
+switch语句用于基于不同条件执行不同的动作，每一个case分支都是唯一的，从上至下注意测试，直到匹配为止；
+
+```GO
+	switch var1 {
+	case val1:
+		...
+	case val2:
+		...
+	default:
+		...
+	}
+```
+
+switch语句执行的过程从上至下，匹配找到的匹配项，匹配项后面也不需要再加break，switch默认情况下case最后自带break语句。
+
+```GO
+// switch语句
+func main() {
+	var score int = 90
+
+	// 匹配case
+	switch score {
+	case 90:
+		fmt.Println("A")
+	case 80:
+		fmt.Println("B")
+	case 50, 60, 70:
+		fmt.Println("C")
+	default:
+		fmt.Println("D")
+	}
+}
+```
+
+
+
+switch省略后面的变量，详单与直接作用在true上，相当于默认为 switch true{}
+
+```go
+// switch 默认的条件 bool = true
+switch {
+case false:
+	fmt.Println("false")
+case true:
+	fmt.Println("true")
+default:
+	fmt.Println("其他")
+}
+```
+
+> fallthrough 贯穿；直通
+
+开发很少使用，了解
+
+switch默认情况下匹配成功后就不会执行去他的case，如果我们需要执行后面的case，可以将fallthrough穿透case，使用fallthrough会强制执行后面的case语句，fallthrough不会判断下一条case的表达式结果是否为true；
+
+```go
+func main() {
+   a := false
+   switch a {
+   case false:
+      fmt.Println("1.case的条件为false")
+      fallthrough // case穿透，不管下一条条件是否满足，都会执行
+   case true:
+      if a == false {
+         break  //终止穿透
+      }
+      fmt.Println("2.case的条件为true")
+   }
+}
+```
+
+
+
+#### :four_leaf_clover: for
+
+不少实际问题中有许多具有规律性的重复操作，因此在程序中就需要重复性执行某些语句。
+
+for循环是一个循环控制结构，可以执行指定次数的循环。
+
+```gO
+func main() {
+	// for 给控制变量赋值，循环条件，给控制变量增量或减量
+	for i := 1; i <= 5; i++ {
+		// 循环体
+		fmt.Println("打印次数:", i)
+	}
+}
+```
+
+计算1到10的和
+
+```GO
+func main() {
+   // 计算1到10的和
+   sum := 0
+   for i := 1; i <= 10; i++ {
+      sum = sum + i
+   }
+   fmt.Println(sum)
+}
+```
+
+for 可以拆分开写
+
+三种：
+
++ for 给控制变量赋值;循环条件;给控制变量增量或减量{}
++ 循环条件;给控制变量增量或减量{}
++ for{}
+
+```GO
+i := 1
+for {
+   fmt.Println(i)
+   i++
+   if i == 15 {
+      break
+   }
+}
+```
+
+> 案例
+
+**案例一：for 打印方阵**
+
+```go
+/* 打印一个方阵
+* * * * * * 换行
+* * * * * *
+* * * * * *
+* * * * * *
+* * * * * *
+ */
+func main() {
+
+   //for i := 0; i < 5; i++ {
+   // fmt.Print("* ")
+   //}
+
+   for j := 0; j < 5; j++ {
+      for i := 0; i < 5; i++ {
+         fmt.Print("* ")
+      }
+      fmt.Println()
+   }
+}
+```
+
+**案例二：打印九九乘法表**
+
+拆分思路：（重要）
+
+```go
+// 打印99乘法表
+func main() {
+   fmt.Println("-------------Go打印九九乘法表-------------")
+   for i := 1; i < 10; i++ {
+      for j := 1; j <= i; j++ {
+         fmt.Printf("%dx%d=%d\t", i, j, i*j)
+      }
+      fmt.Println()
+   }
+}
+```
+
+退出for循环，两个关键字
+
+1. break：结束整个循环
+2. continue：结束当此循环
+
+```go
+func main() {
+   // break 结束当前循环
+   for i := 0; i < 10; i++ {
+      if i == 5 {
+         break
+      }
+      fmt.Print(i)
+   }
+   fmt.Println()
+
+   // continue 结束本次循环
+   for i := 0; i < 10; i++ {
+      if i == 5 {
+         continue
+      }
+      fmt.Print(i)
+   }
+}
+```
+
+
+
+#### :four_leaf_clover:String
+
+> 什么是tring
+
+Go中的字符串是一个字节的切片，可以通过将其内容封装在`“”`中创建字符串，Go中的字符串是Unicode兼容的，并且是UTF-8编码，字符串是一些字符的集合。
+
+```go
+func main() {
+   str := "www.baidu.com"
+   fmt.Println(str)
+
+   // 获取字符串的长度 len
+   fmt.Println("字符串的长度为:", len(str))
+
+   // 获取指定的字节，默认从0开始
+   //acsii 编码 119
+   fmt.Println("字节打印:", str[0])
+   fmt.Printf("%c", str[0])
+
+   // for 遍历
+   for i := 0; i < len(str); i++ {
+      //fmt.Println(str[i])
+      fmt.Printf("%c", str[i]) //wwww.baidu.com
+   }
+
+   // for range循环，便利数组、切片...
+   // 返回下表和值
+   for i, v := range str {
+      fmt.Print(i)
+      fmt.Printf("%c", v)
+   }
+
+   // string 不能修改的
+   // cannot assign to str[2] (value of type byte)
+   str[2] = 'A'
+   fmt.Println(str[2])
+}
+```
+
+
+
+### :trophy:函数
+
+---
+
++ 函数是基本的代码块，用于执行一个任务
++ Go语言最少有个main函数
++ 可以通过函数来划分不同的功能，逻辑上每个函数执行的是指定的任务，
++ 函数声明告诉了编译器函数的名称，返回类型和参数
+
+```
+// main 函数
+func main() {
+   fmt.Println("hello,world")
+
+   fmt.Println(add(1, 2))
+}
+
+/*
+   func 函数名(参数,参数...) 函数调用后的返回值 {
+      函数体   //执行一段代码
+      reture //返回结果
+   }
+*/
+func add(a, b int) int {
+   c := a + b
+   return c
+}
+```
+
+#### :four_leaf_clover:函数的声明
+
+Go语言函数定义格式如下：
+
+```go
+func function_name( [parameter list]) [return_type] {
+    函数体
+}
+```
+
++ 无参无返回值函数
++ 有一个参数的函数
++ 有两个参数的函数
++ 有一个返回值的函数
++ 有多个返回值的函数
+
+```go
+package main
+
+import "fmt"
+
+/*
++ 无参无返回值函数
++ 有一个参数的函数
++ 有两个参数的函数
++ 有一个返回值的函数
++ 有多个返回值的函数
+*/
+func main() {
+   // 函数调用
+   printinfo()
+   myprint("有一个参数的函数")
+   myprint(addstring("有两个参数的函数\t", "有一个返回值的函数"))
+   x, y := swap("one", "two")
+   fmt.Println(x, y)
+}
+
+// 无参无返回值函数
+func printinfo() {
+   fmt.Println("无参无返回值函数")
+}
+
+// 有一个参数的函数
+func myprint(msg string) {
+   fmt.Println(msg)
+}
+
+// 有两个参数的函数
+func addstring(a, b string) string {
+   c := a + b
+   return c
+}
+
+// 有多个返回值的函数
+func swap(x, y string) (string, string) {
+   return y, x
+}
+```
+
+比较两个数字大小
+
+```go
+func main() {
+
+   // 形参与实参要一一对应，顺序，个数，类型
+   max(1, 2)
+}
+
+// max 两个数字比大小
+// 形式参数：函数定义时，用来接受外部传入数据的参数，就是形式参数
+// 实际参数：程序实际调用时，传入的参数
+func max(num1, num2 int) int {
+   var result int
+   if num1 > num2 {
+      result = num1
+   } else {
+      result = num2
+   }
+
+   // 一个函数上定义了返回值，那么函数中必须使用 return 语句
+   // 返回值
+   // 调用处需要使用变量接受该结果
+   return result
+}
+```
+
+
+
+#### :four_leaf_clover:可变参数
+
+概念：一个函数的参数类型确定，但个数不确定，就可以使用可变参数。
+
+```GO
+func myfunc(arg ..int){}
+```
+
+`arg  ...int` 告诉 Go 这个函数接受不定数量的参数，类型全部是 int
+
+```go
+func main() {
+   getSum(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+}
+
+// ... 可变参数
+func getSum(nums ...int) {
+   sum := 0
+
+   for i := 0; i < len(nums); i++ {
+      fmt.Println(nums[i])
+      sum += nums[i]
+   }
+   fmt.Println("sum:", sum)
+}
+```
+
+注意事项：
+
++ 如果一个函数的参数是可变参数，同时还有其他的参数，可变参数要放在列表的最后
++ 一个函数的参数列表中最多只能有一个可变参数
+
+#### :four_leaf_clover:参数传递
+
+按照数据的存储特点来分：
+
++ 值类型的数据：操作的是数据本身、int、string、bool、float64、array...
++ 引用类型的数据：操作的是数据的地址slice、map、chan
+
+函数中的重点：
+
+> 值传递
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+   // 值传递
+   // 传递，拷贝 arr
+   // arr2 的数据是从arr1复制来的，所以是不同的空间
+   // 修改 arr2 并不会影响 arr1
+   // 值传递，传递的是数据的副本，修改数据，对于原始的数据没有影响
+   // 值类型的数据，默认都是值传递，基础类型、array、strtuct
+   // 定义一个数组 [个数]int
+   arr := [4]int{1, 2, 3, 4}
+   fmt.Println(arr)
+   update(arr)
+   fmt.Println("调用后的数据:", arr) // arr对象本身
+   // 引用传递
+}
+func update(arr2 [4]int) {
+   fmt.Println("arr2接受的数据:", arr2)
+   arr2[0] = 100
+   fmt.Println("arr2修改后的数据:", arr2)
+
+}
+```
+
+> 引用传递
+
+操作的始终是同一个空间
+
+**变量在内存中是存放在一定的地址上的，修改了变量实际是修改了变量地址处的内存**
+
+```go
+// 引用传递
+func main() {
+
+	// 切片，可以扩容的数组
+	s1 := []int{1, 2, 3, 4}
+	fmt.Println("默认的数据:", s1) // [1 2 3 4]
+	// 传入的是引用类型的数据，地址
+	update2(s1)
+	fmt.Println("调用后的数据:", s1) // [100 2 3 4]
+}
+func update2(s2 []int) {
+	fmt.Println("传递的数据:", s2) // [1 2 3 4]
+	s2[0] = 100
+	fmt.Println("修改后的数据:", s2) // [100 2 3 4]
+}
+
+```
+
+#### :four_leaf_clover:函数中变量的作用域
+
+作用域：变量可以使用的范围
+
+局部变量：函数内部定义的变量：局部变量
+
+全部变量：函数外部定义的变量：全局变量
+
+注意：无论是全局变量还是局部变量都遵循就近原则！
+
+```go
+// 全局变量
+var num int = 100
+
+func main() {
+   // 函数体内的局部变量
+   temp := 100
+   // if、for语句定义的一次性变量局部变量
+   if b := 1; b <= 10 {
+      // 语句内的局部变量
+      temp := 50
+      fmt.Println(temp) // 局部变量，就近原则
+      fmt.Println(b)
+   }
+   fmt.Println(temp)
+   fmt.Println(num)
+
+   f1()
+   f2()
+}
+
+// 内部
+func f1() {
+   a := 1
+   fmt.Println(a)
+   num := 30 // 就近原则
+   fmt.Println(num)
+}
+func f2() {
+   //fmt.Println(a)   // 不能使用其他函数定义的变量
+   fmt.Println(num)
+}
+```
+
+
+
+#### :four_leaf_clover:递归函数
+
+定义：一个函数自己调用自己，就叫递归函数
+
+注意：递归函数需要一个出口，逐渐向出口靠近，没有出口就会形成死循环。
+
+求和：1,2,3,4,5
+
+```GO
+getsum(5)
+	getsum(4)+5
+		getsum(3)+4
+			getsum(2)+3
+				getsum(1)+2
+					1
+```
+
+递归十分消耗程序的内存
+
+```GO
+func main() {
+	sum := getSum(5)
+	fmt.Println(sum)
+}
+
+// 5				5
+// getSum(4) + 5	15
+// getSum(3) + 4	10
+// getSum(2) + 3	6	getSum(2) = getSum(1) + 2
+// getSum(1) + 2	3	== 1 + 2
+// 1				1
+func getSum(n int) int {
+	if n == 1 {
+		return 1
+	}
+	return getSum(n-1) + n
+}
+```
+
+
+
+#### :four_leaf_clover:defer
+
+defer语义：推迟、延迟
+
+在go语言中，使用defer关键字来推迟一个韩硕或者方法的执行
+
+```go
+func main() {
+	f("1")
+	fmt.Println("2")
+	defer f("3") // 会被延迟到最后执行
+	fmt.Println("4")
+	defer f("5")
+	defer f("6") //defer语句会按照逆序执行
+}
+
+func f(s string) {
+	fmt.Println(s)
+}
+```
+
+
+
+defer韩硕或者方法：一个函数或方法的执行被延迟了
+
++ 你可以子函数中添加多个defer语句，当函数执行到最后时，这些**defer语句会按照逆序执行**，最后该函数返回，特别是当你在进行进行一些打开资源时，遇到错误需要提前返回，在返回前你需要关闭相应的资源，不然很容易造成资源泄露等问题。
++ 如果有很多调用defer，那么**defer是采用后进先出（栈）模式**
+
+**值是什么时候传递进去的:**
+
+常用于关闭文件操作，io、线程、网络
+
+```go
+func main() {
+	a := 10
+	fmt.Println("a=", a)
+	defer f3(a) // 函数中的a= 10;参数已经传递进入，在最后执行
+	a++
+	fmt.Println("a=", a)
+
+}
+func f3(s int) {
+	fmt.Println("函数中的a=", s)
+}
+```
+
+
+
+#### :four_leaf_clover:高级：函数的数据类型
+
+函数的数据类型：func(参数类型)（返回值类型）
+
+函数也是一种数据类型
+
+```GO
+
+// func() 本身就是一个数据类型；那么就可以定义一个函数类型的变量
+func main() {
+	// 不加括号，函数就是一个变量
+	// f0()  如果加上了括号那就变成了函数
+	fmt.Printf("%T\n", f0)  // func() | func(int, int) | func(int, int) int
+	fmt.Printf("%T\n", 10)  // int
+	fmt.Printf("%T\n", "A") // string
+
+	// 定义函数类型的变量
+	var f5 func(int, int)
+	f5 = f0
+	// 调用 f5
+	f5(1, 2)
+	fmt.Println(f5) // 0xbdfe40
+	fmt.Println(f0) // 0xbdfe40
+
+}
+func f0(a, b int) {
+	fmt.Println(a, b)
+}
+```
+
+func() 本身就是一个数据类型；不加括号就是一个变量，变量可以赋值，赋值给一个对应的数据类型函数
+
+**函数在Go语言中是符合函数类型，可以看做是一种特殊的变量**
+
+
+
+#### :four_leaf_clover:高级：匿名函数
+
+Go语义是支持函数式编程：
+
+1、将匿名函数作为另外一个函数的参数，回调函数
+
+2、降匿名函数作为另外一个函数的返回值，可以形成闭包结构
+
+```go
+// 匿名函数
+func main() {
+   f6()
+   f7 := f6 // 函数本身也是一个变量
+   f7()
+
+   // 匿名函数
+   f8 := func() {
+      fmt.Println("f8函数")
+   }
+   f8()
+
+   //简化；匿名哈桉树自己调用自己，只执行一次
+   func() {
+      fmt.Println("f9函数")
+   }()
+
+   //匿名函数传参
+   func(a, b int) {
+      fmt.Println(a, b)
+   }(1, 2)
+
+   //匿名函数传参 + return
+   r1 := func(a, b int) int {
+      fmt.Println(a, b)
+      return a + b
+   }(1, 2)
+   fmt.Println(r1)
+}
+
+func f6() {
+   fmt.Println("f6函数")
+}
+```
+
+
+
+#### :four_leaf_clover:高级：回调函数
+
+高价函数：根据go语言的数据特点，**可以将一个函数作为另外一个函数的参数**。
+
+func1()，func2()
+
+将func1函数作为func2这个函数的参数
+
++ func2函数：叫做高阶函数，接受了一个函数作为参数的函数
++ fucn1函数：叫做回调函数，作为另外一个函数的参数
+
+```go
+func main() {
+   r1 := add1(1, 2)
+   fmt.Println(r1)
+
+   r2 := oper(3, 4, add1)
+   fmt.Println(r2)
+
+   r3 := oper(10, 4, add1)
+   fmt.Println(r3)
+
+   // 既然可以调用实际函数，那么也可以调用匿名函数
+   r4 := oper(12, 4, func(a int, b int) int {
+      if b == 0 {
+         fmt.Println("除数不能为0")
+         return 0
+      }
+      return a / b
+   })
+   fmt.Println(r4)
+}
+
+// 高阶函数,可以接受一个函数作为参数
+func oper(a, b int, fun func(int, int) int) int {
+   r := fun(a, b)
+   return r
+}
+
+func add1(a, b int) int {
+   return a + b
+}
+func sub(a, b int) int {
+   return a - b
+}
+```
+
+在遇到：像使用同一个方法实现不同的功能，就可以使用回调函数实现
+
+
+
+#### :four_leaf_clover:高级：闭包
+
+一个外层函数中，有内层函数，该内层函数中，会操作外层函数的局部变量
+
+并且该外层函数的返回值就是这个内层函数。
+
+这个内层函数的和外层函数的局部变量，统称为闭包结构
+
+局部变量的生周期就会发生改变，正常的局部变量会随着函数的调用而创建，随着函数的结束而销毁；
+
+但是闭包结构中的外层函数的局部变量并不会随着外层函数的结束而销毁，因为内层函数还在继续使用
+
+
+
+注意：开发中避免这样使用，阅读起来会产生错觉
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+
+   r1 := increment()
+   fmt.Println(r1) // 地址：0x9de7e0
+
+   v1 := r1()
+   fmt.Println(v1) // 1
+   v2 := r1()
+   fmt.Println(v2)   // 2
+   fmt.Println(r1()) // 3
+   fmt.Println(r1()) // 4
+   fmt.Println(r1()) // 5
+
+   r2 := increment()
+   fmt.Println(r2)   // 地址：0x9de7c0
+   fmt.Println(r2()) // 1
+
+}
+
+// 自增
+func increment() func() int {
+   // 局部变量 i
+   i := 0
+   // 定义一个匿名函数，给变量自增并返回
+   fun := func() int { // 内层函数，没有执行的
+      i++
+      return i
+   }
+   return fun
+}
+```
 
 
 
